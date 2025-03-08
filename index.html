@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор електричних пристроїв</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow">
+                    <div class="card-header">
+                        <h1 class="h3 mb-0">Лабораторна робота 1</h1>
+                    </div>
+                    <div class="card-body">
+                        <form method="post">
+                            <div class="mb-3">
+                                <label class="form-label">Назва ЕП:</label>
+                                <input type="text" class="form-control" name="name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Номінальне значення коефіцієнта корисної дії ЕП:</label>
+                                <input type="number" step="0.01" class="form-control" name="efficiency" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Коефіцієнт потужності навантаження:</label>
+                                <input type="number" step="0.01" class="form-control" name="powerFactor" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Напруга навантаження:</label>
+                                <input type="number" step="0.01" class="form-control" name="voltage" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Кількість ЕП:</label>
+                                <input type="number" class="form-control" name="devicesCount" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Номінальна потужність ЕП:</label>
+                                <input type="number" class="form-control" name="power" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Коефіцієнт використання:</label>
+                                <input type="number" step="0.01" class="form-control" name="utilizationFactor" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Коефіцієнт реактивної потужності:</label>
+                                <input type="number" step="0.01" class="form-control" name="reactivePowerFactor" required>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <button type="submit" class="btn btn-primary">Додати ЕП на ШР</button>
+                                <button type="submit" name="calculate" value="true" class="btn btn-success">Розрахувати</button>
+                            </div>
+                        </form>
+
+                        {{if .Devices}}
+                        <div class="mt-4">
+                            <h2 class="h4 mb-3">Результати розрахунку:</h2>
+                            <div class="alert alert-info">
+                                <p>Груповий коефіцієнт використання для ШР1=ШР2=ШР3: {{printf "%.2f" .GroupUtilizationRate}}</p>
+                                <p>Ефективна кількість ЕП для ШР1=ШР2=ШР3: {{printf "%.2f" .EffectiveAmountED}}</p>
+                                <p>Розрахунковий коефіцієнт активної потужності для ШР1=ШР2=ШР3: {{printf "%.2f" .KP}}</p>
+                                <p>Розрахункове активне навантаження для ШР1=ШР2=ШР3: {{printf "%.2f" .CalculatedActiveLoad}} кВт</p>
+                                <p>Розрахункове реактивне навантаження для ШР1=ШР2=ШР3: {{printf "%.2f" .CalculatedReactiveLoad}} квар</p>
+                                <p>Повна потужність для ШР1=ШР2=ШР3: {{printf "%.2f" .FullPower}} кВ*А</p>
+                                <p>Розрахунковий груповий струм для ШР1=ШР2=ШР3: {{printf "%.2f" .EstimatedGroupCurrent}} A</p>
+                                <p>Коефіцієнти використання цеху в цілому: {{printf "%.2f" .WorkshopUtilizationRates}}</p>
+                                <p>Ефективна кількість ЕП цеху в цілому: {{printf "%.2f" .EffectiveNumberEDWorkshop}}</p>
+                                <p>Розрахунковий коефіцієнт активної потужності цеху в цілому: {{printf "%.2f" .KP2}}</p>
+                                <p>Розрахункове активне навантаження на шинах 0,38 кВ ТП: {{printf "%.2f" .CalculatedActiveLoadBuses}} кВт</p>
+                                <p>Розрахункове реактивне навантаження на шинах 0,38 кВ ТП: {{printf "%.2f" .CalculatedReactiveLoadBuses}} квар</p>
+                                <p>Повна потужність на шинах 0,38 кВ ТП: {{printf "%.2f" .FullPowerBuses}} кВ*А</p>
+                                <p>Розрахунковий груповий струм на шинах 0,38 кВ ТП: {{printf "%.2f" .EstimatedGroupCurrentBuses}} А</p>
+                            </div>
+                        </div>
+                        {{end}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
